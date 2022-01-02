@@ -57,7 +57,8 @@ module Optimism
         association = model.send(resource.to_sym)
         association = association.reverse if reverse_attributes_for.include?(resource.to_sym)
         if association.respond_to? :each_with_index
-          association.each_with_index do |nested, index|
+          association.each_with_index do |nested, position|
+            index = nested.try(:id).presence || nested.try(:index).presence || position
             process_resource(nested, attributes[attribute][index.to_s], ancestry + [resource, index]) if attributes[attribute].key?(index.to_s)
           end
         else
