@@ -85,7 +85,7 @@ module Optimism
       end
     end
     if model.errors.messages.map(&:first).include?(attribute.to_sym)
-      message = "#{model.errors.full_message(attribute.to_sym, model.errors.messages[attribute.to_sym].first)}#{Optimism.suffix}"
+      message = model.errors.messages_for(attribute.to_sym).to_sentence.capitalize + Optimism.suffix
       CableReady::Channels.instance[Optimism.channel_proc[self]].dispatch_event(name: "optimism:attribute:invalid", detail: {resource: resource, attribute: attribute, text: message}) if Optimism.emit_events
       CableReady::Channels.instance[Optimism.channel_proc[self]].add_css_class(selector: container_selector, name: Optimism.error_class) if Optimism.add_css
       CableReady::Channels.instance[Optimism.channel_proc[self]].text_content(selector: error_selector, text: message) if Optimism.inject_inline
