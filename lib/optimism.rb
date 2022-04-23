@@ -100,7 +100,7 @@ end
 module ActionView::Helpers
   module FormHelper
     def error_for(object_name, attribute, **options)
-      tag.span **options.merge(id: error_id_for(object_name, attribute))
+      tag.span **options.reverse_merge(id: error_id_for(object_name, attribute))
     end
 
     def error_id_for(object_name, attribute)
