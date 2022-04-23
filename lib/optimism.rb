@@ -110,7 +110,7 @@ module ActionView::Helpers
 
   class FormBuilder
     def container_for(attribute, **options, &block)
-      @template.tag.div @template.capture(&block), **options.merge(id: container_id_for(attribute)) if block_given?
+      @template.tag.div @template.capture(&block), **options.reverse_merge(id: container_id_for(attribute)) if block_given?
     end
 
     def container_id_for(attribute)
